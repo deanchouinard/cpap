@@ -1,0 +1,23 @@
+<h2>Show product</h2>
+
+<ul>
+
+  <li>
+    <strong>Code:</strong>
+    <%= @product.code %>
+  </li>
+
+  <li>
+    <strong>Desc:</strong>
+    <%= @product.desc %>
+  </li>
+
+  <li>
+    <strong>Interval:</strong>
+    <%= @product.interval_id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: product_path(@conn, :edit, @product) %>
+<%= link "Back", to: product_path(@conn, :index) %>

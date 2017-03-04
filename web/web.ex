@@ -36,6 +36,7 @@ defmodule CPAP.Web do
 
       import CPAP.Router.Helpers
       import CPAP.Gettext
+      import CPAP.Auth, only: [authenticate_user: 2]
     end
   end
 
@@ -58,6 +59,8 @@ defmodule CPAP.Web do
   def router do
     quote do
       use Phoenix.Router
+      
+      import CPAP.Auth, only: [authenticate_user: 2]
     end
   end
 

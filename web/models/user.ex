@@ -7,6 +7,8 @@ defmodule CPAP.User do
     field :username, :string
     field :password, :string, virtual: true
     field :password_hash, :string
+    has_many :products, CPAP.Product
+    has_many :intervals, CPAP.Interval
 
     timestamps()
   end

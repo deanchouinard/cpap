@@ -22,6 +22,12 @@ defmodule CPAP.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
+  scope "/manage", CPAP do
+    pipe_through [:browser, :authenticate_user]
+
+    resources "/products", ProductController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", CPAP do
   #   pipe_through :api
