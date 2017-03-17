@@ -117,9 +117,9 @@ CREATE TABLE schema_migrations (
 
 CREATE TABLE users (
     id integer NOT NULL,
-    name character varying(255),
+    name character varying(255) NOT NULL,
     username character varying(255) NOT NULL,
-    password_hash character varying(255),
+    password_hash character varying(255) NOT NULL,
     inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -253,5 +253,5 @@ ALTER TABLE ONLY products
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO "schema_migrations" (version) VALUES (20170223151856), (20170227032628), (20170227034542), (20170228035101), (20170228114947), (20170228120346), (20170305173744), (20170305180759), (20170305182326);
+INSERT INTO "schema_migrations" (version) VALUES (20170223151856), (20170227032628), (20170227034542), (20170228035101), (20170228114947), (20170228120346), (20170305173744), (20170305180759), (20170305182326), (20170311120709);
 

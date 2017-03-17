@@ -18,7 +18,7 @@ defmodule CPAP.Product do
     struct
     |> cast(params, [:code, :desc, :qty, :interval_id])
     |> validate_required([:code, :desc, :qty])
+    |> assoc_constraint(:interval)
   end
-
 
 end
