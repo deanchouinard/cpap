@@ -28,21 +28,21 @@ defmodule CPAP.Web do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: CPAP
+      use Phoenix.Controller, namespace: CPAP.Web
 
       alias CPAP.Repo
       import Ecto
       import Ecto.Query
 
-      import CPAP.Router.Helpers
-      import CPAP.Gettext
-      import CPAP.Auth, only: [authenticate_user: 2]
+      import CPAP.Web.Router.Helpers
+      import CPAP.Web.Gettext
+      import CPAP.Web.Auth, only: [authenticate_user: 2]
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "web/templates", namespace: CPAP
+      use Phoenix.View, root: "lib/cpap/web/templates", namespace: CPAP.Web
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
@@ -50,9 +50,9 @@ defmodule CPAP.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import CPAP.Router.Helpers
-      import CPAP.ErrorHelpers
-      import CPAP.Gettext
+      import CPAP.Web.Router.Helpers
+      import CPAP.Web.ErrorHelpers
+      import CPAP.Web.Gettext
     end
   end
 
@@ -60,7 +60,7 @@ defmodule CPAP.Web do
     quote do
       use Phoenix.Router
       
-      import CPAP.Auth, only: [authenticate_user: 2]
+      import CPAP.Web.Auth, only: [authenticate_user: 2]
     end
   end
 
@@ -71,7 +71,7 @@ defmodule CPAP.Web do
       alias CPAP.Repo
       import Ecto
       import Ecto.Query
-      import CPAP.Gettext
+      import CPAP.Web.Gettext
     end
   end
 

@@ -1,4 +1,4 @@
-defmodule CPAP.Router do
+defmodule CPAP.Web.Router do
   use CPAP.Web, :router
 
   pipeline :browser do
@@ -7,14 +7,14 @@ defmodule CPAP.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug CPAP.Auth, repo: CPAP.Repo
+    plug CPAP.Web.Auth, repo: CPAP.Repo
   end
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/", CPAP do
+  scope "/", CPAP.Web do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
@@ -22,7 +22,7 @@ defmodule CPAP.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
-  scope "/manage", CPAP do
+  scope "/manage", CPAP.Web do
     pipe_through [:browser, :authenticate_user]
 
     resources "/products", ProductController

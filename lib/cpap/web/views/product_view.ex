@@ -1,4 +1,4 @@
-defmodule CPAP.ProductView do
+defmodule CPAP.Web.ProductView do
   use CPAP.Web, :view
 
   def i_months(id) do

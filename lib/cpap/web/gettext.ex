@@ -1,4 +1,4 @@
-defmodule CPAP.Gettext do
+defmodule CPAP.Web.Gettext do
   @moduledoc """
   A module providing Internationalization with a gettext-based API.
 

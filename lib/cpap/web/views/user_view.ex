@@ -1,4 +1,4 @@
-defmodule CPAP.UserView do
+defmodule CPAP.Web.UserView do
   use CPAP.Web, :view
   alias CPAP.User
 

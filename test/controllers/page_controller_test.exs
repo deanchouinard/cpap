@@ -1,5 +1,5 @@
-defmodule CPAP.PageControllerTest do
-  use CPAP.ConnCase
+defmodule CPAP.Web.PageControllerTest do
+  use CPAP.Web.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

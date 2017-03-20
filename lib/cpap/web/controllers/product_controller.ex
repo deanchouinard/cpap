@@ -1,4 +1,4 @@
-defmodule CPAP.ProductController do
+defmodule CPAP.Web.ProductController do
   use CPAP.Web, :controller
 
   alias CPAP.Product

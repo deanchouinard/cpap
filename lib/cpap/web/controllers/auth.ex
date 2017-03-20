@@ -1,8 +1,8 @@
-defmodule CPAP.Auth do
+defmodule CPAP.Web.Auth do
   import Plug.Conn
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   import Phoenix.Controller
-  alias CPAP.Router.Helpers
+  alias CPAP.Web.Router.Helpers
 
   def init(opts) do
     Keyword.fetch!(opts, :repo)
@@ -10,8 +10,14 @@ defmodule CPAP.Auth do
 
   def call(conn, repo) do
     user_id = get_session(conn, :user_id)
-    user = user_id && repo.get(CPAP.User, user_id)
-    assign(conn, :current_user, user)
+    cond do
+      user = conn.assigns[:current_user] ->
+        conn
+      user = user_id && repo.get(CPAP.User, user_id) ->
+        assign(conn, :current_user, user)
+      true ->
+        assign(conn, :current_user, nil)
+    end
   end
 
   def login(conn, user) do

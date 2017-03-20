@@ -1,4 +1,4 @@
-defmodule CPAP.UserController do
+defmodule CPAP.Web.UserController do
   use CPAP.Web, :controller
   alias CPAP.User
   plug :authenticate_user when action in [:index, :show]
@@ -23,7 +23,7 @@ defmodule CPAP.UserController do
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn
-        |> CPAP.Auth.login(user)
+        |> CPAP.Web.Auth.login(user)
         |> put_flash(:info, "#{user.name} created!")
         |> redirect(to: user_path(conn, :index))
       {:error, changeset} ->

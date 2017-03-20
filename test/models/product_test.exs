@@ -1,10 +1,11 @@
-defmodule CPAP.ProductTest do
-  use CPAP.ModelCase
+defmodule CPAP.Web.ProductTest do
+  use CPAP.Web.ModelCase
 
   alias CPAP.Product
 
-  @valid_attrs %{code: "some content", desc: "some content"}
-  @invalid_attrs %{}
+  @valid_attrs %{code: "some content", desc: "some content", qty: 1,
+                interval_id: 1}
+  @invalid_attrs %{code: ""}
 
   test "changeset with valid attributes" do
     changeset = Product.changeset(%Product{}, @valid_attrs)

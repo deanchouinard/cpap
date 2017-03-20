@@ -1,4 +1,4 @@
-defmodule CPAP.PageController do
+defmodule CPAP.Web.PageController do
   use CPAP.Web, :controller
 
   def index(conn, _params) do

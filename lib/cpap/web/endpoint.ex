@@ -1,7 +1,7 @@
-defmodule CPAP.Endpoint do
+defmodule CPAP.Web.Endpoint do
   use Phoenix.Endpoint, otp_app: :cpap
 
-  socket "/socket", CPAP.UserSocket
+  socket "/socket", CPAP.Web.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -38,5 +38,5 @@ defmodule CPAP.Endpoint do
     key: "_cpap_key",
     signing_salt: "VAYpyFvT"
 
-  plug CPAP.Router
+  plug CPAP.Web.Router
 end

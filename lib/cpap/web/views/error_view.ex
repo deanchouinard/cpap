@@ -1,4 +1,4 @@
-defmodule CPAP.ErrorView do
+defmodule CPAP.Web.ErrorView do
   use CPAP.Web, :view
 
   def render("404.html", _assigns) do

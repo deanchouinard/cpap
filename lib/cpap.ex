@@ -11,7 +11,7 @@ defmodule CPAP do
       # Start the Ecto repository
       supervisor(CPAP.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(CPAP.Endpoint, []),
+      supervisor(CPAP.Web.Endpoint, []),
       # Start your own worker by calling: CPAP.Worker.start_link(arg1, arg2, arg3)
       # worker(CPAP.Worker, [arg1, arg2, arg3]),
     ]
@@ -24,8 +24,8 @@ defmodule CPAP do
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
-  def config_change(changed, _new, removed) do
-    CPAP.Endpoint.config_change(changed, removed)
-    :ok
-  end
+  # def config_change(changed, _new, removed) do
+  #   CPAP.Endpoint.config_change(changed, removed)
+  #   :ok
+  # end
 end

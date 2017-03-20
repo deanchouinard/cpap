@@ -11,11 +11,11 @@ config :cpap,
   ecto_repos: [CPAP.Repo]
 
 # Configures the endpoint
-config :cpap, CPAP.Endpoint,
+config :cpap, CPAP.Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "4XmoR3Y4wcGAohR3hpp6ClHnaDcN6TDGiMwYCDpraPDl07aufCGeTkG4W0vaFv6h",
-  render_errors: [view: CPAP.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: CPAP.PubSub,
+  render_errors: [view: CPAP.Web.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: CPAP.Web.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger

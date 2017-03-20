@@ -1,3 +1,3 @@
-defmodule CPAP.PageViewTest do
-  use CPAP.ConnCase, async: true
+defmodule CPAP.Web.PageViewTest do
+  use CPAP.Web.ConnCase, async: true
 end

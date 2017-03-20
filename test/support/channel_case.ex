@@ -1,4 +1,4 @@
-defmodule CPAP.ChannelCase do
+defmodule CPAP.Web.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -27,7 +27,7 @@ defmodule CPAP.ChannelCase do
 
 
       # The default endpoint for testing
-      @endpoint CPAP.Endpoint
+      @endpoint CPAP.Web.Endpoint
     end
   end
 

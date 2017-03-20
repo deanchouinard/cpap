@@ -1,4 +1,4 @@
-defmodule CPAP.ConnCase do
+defmodule CPAP.Web.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -25,10 +25,11 @@ defmodule CPAP.ConnCase do
       import Ecto.Changeset
       import Ecto.Query
 
-      import CPAP.Router.Helpers
+      import CPAP.Web.Router.Helpers
+      import CPAP.TestHelpers
 
       # The default endpoint for testing
-      @endpoint CPAP.Endpoint
+      @endpoint CPAP.Web.Endpoint
     end
   end
 

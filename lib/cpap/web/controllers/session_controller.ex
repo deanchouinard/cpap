@@ -1,4 +1,4 @@
-defmodule CPAP.SessionController do
+defmodule CPAP.Web.SessionController do
   use CPAP.Web, :controller
 
   def new(conn, _) do
@@ -6,7 +6,7 @@ defmodule CPAP.SessionController do
   end
 
   def create(conn, %{"session" => %{"username" => user, "password" => pass}}) do
-    case CPAP.Auth.login_by_username_and_pass(conn, user, pass, repo: Repo) do
+    case CPAP.Web.Auth.login_by_username_and_pass(conn, user, pass, repo: Repo) do
       {:ok, conn} ->
         conn
         |> put_flash(:info, "Welcome back!")
@@ -20,7 +20,7 @@ defmodule CPAP.SessionController do
 
   def delete(conn, _) do
     conn
-    |> CPAP.Auth.logout()
+    |> CPAP.Web.Auth.logout()
     |> redirect(to: page_path(conn, :index))
   end
 end

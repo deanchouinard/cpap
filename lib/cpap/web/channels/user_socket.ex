@@ -1,4 +1,4 @@
-defmodule CPAP.UserSocket do
+defmodule CPAP.Web.UserSocket do
   use Phoenix.Socket
 
   ## Channels

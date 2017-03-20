@@ -1,5 +1,5 @@
-defmodule CPAP.IntervalTest do
-  use CPAP.ModelCase
+defmodule CPAP.Web.IntervalTest do
+  use CPAP.Web.ModelCase
 
   alias CPAP.Interval
 
