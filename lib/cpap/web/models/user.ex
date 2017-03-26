@@ -9,6 +9,7 @@ defmodule CPAP.User do
     field :password_hash, :string
     has_many :products, CPAP.Product
     has_many :intervals, CPAP.Interval
+    has_many :orders, CPAP.Purchases.Order
 
     timestamps()
   end

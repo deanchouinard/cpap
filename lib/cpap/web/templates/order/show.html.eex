@@ -1,0 +1,13 @@
+<h2>Show Order</h2>
+
+<ul>
+
+  <li>
+    <strong>Order date:</strong>
+    <%= @order.order_date %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: order_path(@conn, :edit, @order) %></span>
+<span><%= link "Back", to: order_path(@conn, :index) %></span>

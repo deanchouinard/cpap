@@ -27,7 +27,11 @@ defmodule CPAP.TestHelpers do
     |> Repo.insert!()
   end
 
-    
+  def insert_order(user) do
+    user
+    |> Ecto.build_assoc(:orders, %{order_date: ~D[2011-05-18]})
+    |> Repo.insert!()
+  end
 end
 
 

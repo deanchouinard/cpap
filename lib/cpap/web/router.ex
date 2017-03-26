@@ -26,6 +26,7 @@ defmodule CPAP.Web.Router do
     pipe_through [:browser, :authenticate_user]
 
     resources "/products", ProductController
+    resources "/orders", OrderController
   end
 
   # Other scopes may use custom stacks.

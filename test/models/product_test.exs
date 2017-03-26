@@ -1,5 +1,5 @@
 defmodule CPAP.Web.ProductTest do
-  use CPAP.Web.ModelCase
+  use CPAP.DataCase
 
   alias CPAP.Product
 

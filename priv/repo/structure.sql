@@ -102,6 +102,72 @@ ALTER SEQUENCE products_id_seq OWNED BY products.id;
 
 
 --
+-- Name: purchases_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE purchases_items (
+    id integer NOT NULL,
+    qty integer NOT NULL,
+    order_id integer NOT NULL,
+    user_id integer NOT NULL,
+    product_id integer NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: purchases_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE purchases_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: purchases_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE purchases_items_id_seq OWNED BY purchases_items.id;
+
+
+--
+-- Name: purchases_orders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE purchases_orders (
+    id integer NOT NULL,
+    order_date date NOT NULL,
+    user_id integer NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: purchases_orders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE purchases_orders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: purchases_orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE purchases_orders_id_seq OWNED BY purchases_orders.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -159,6 +225,20 @@ ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq':
 
 
 --
+-- Name: purchases_items id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY purchases_items ALTER COLUMN id SET DEFAULT nextval('purchases_items_id_seq'::regclass);
+
+
+--
+-- Name: purchases_orders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY purchases_orders ALTER COLUMN id SET DEFAULT nextval('purchases_orders_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -179,6 +259,22 @@ ALTER TABLE ONLY intervals
 
 ALTER TABLE ONLY products
     ADD CONSTRAINT products_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: purchases_items purchases_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY purchases_items
+    ADD CONSTRAINT purchases_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: purchases_orders purchases_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY purchases_orders
+    ADD CONSTRAINT purchases_orders_pkey PRIMARY KEY (id);
 
 
 --
@@ -219,6 +315,34 @@ CREATE INDEX products_user_id_index ON products USING btree (user_id);
 
 
 --
+-- Name: purchases_items_order_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX purchases_items_order_id_index ON purchases_items USING btree (order_id);
+
+
+--
+-- Name: purchases_items_product_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX purchases_items_product_id_index ON purchases_items USING btree (product_id);
+
+
+--
+-- Name: purchases_items_user_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX purchases_items_user_id_index ON purchases_items USING btree (user_id);
+
+
+--
+-- Name: purchases_orders_user_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX purchases_orders_user_id_index ON purchases_orders USING btree (user_id);
+
+
+--
 -- Name: users_username_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -250,8 +374,40 @@ ALTER TABLE ONLY products
 
 
 --
+-- Name: purchases_items purchases_items_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY purchases_items
+    ADD CONSTRAINT purchases_items_order_id_fkey FOREIGN KEY (order_id) REFERENCES purchases_orders(id);
+
+
+--
+-- Name: purchases_items purchases_items_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY purchases_items
+    ADD CONSTRAINT purchases_items_product_id_fkey FOREIGN KEY (product_id) REFERENCES products(id);
+
+
+--
+-- Name: purchases_items purchases_items_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY purchases_items
+    ADD CONSTRAINT purchases_items_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: purchases_orders purchases_orders_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY purchases_orders
+    ADD CONSTRAINT purchases_orders_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO "schema_migrations" (version) VALUES (20170223151856), (20170227032628), (20170227034542), (20170228035101), (20170228114947), (20170228120346), (20170305173744), (20170305180759), (20170305182326), (20170311120709);
+INSERT INTO "schema_migrations" (version) VALUES (20170223151856), (20170227032628), (20170227034542), (20170228035101), (20170228114947), (20170228120346), (20170305173744), (20170305180759), (20170305182326), (20170311120709), (20170325105808), (20170325202621);
 

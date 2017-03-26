@@ -40,13 +40,11 @@ defmodule CPAP.Web.ProductController do
   end
 
   def create(conn, %{"product" => product_params}, user) do
-    IO.inspect product_params
     changeset =
       user
       |> build_assoc(:products)
       |> Product.changeset(product_params)
 
-      IO.inspect changeset
     case Repo.insert(changeset) do
       {:ok, _product} ->
         conn
