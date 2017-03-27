@@ -13,8 +13,8 @@ defmodule CPAP.Web.OrderController do
     render(conn, "index.html", orders: orders)
   end
 
-  def new(conn, _params, user) do
-    changeset = Purchases.change_order(%CPAP.Purchases.Order{}, user)
+  def new(conn, _params, _user) do
+    changeset = Purchases.change_order(%CPAP.Purchases.Order{})
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -38,7 +38,7 @@ defmodule CPAP.Web.OrderController do
 
   def edit(conn, %{"id" => id}, user) do
     order = Purchases.get_order!(id, user)
-    changeset = Purchases.change_order(order, user)
+    changeset = Purchases.change_order(order)
     render(conn, "edit.html", order: order, changeset: changeset)
   end
 

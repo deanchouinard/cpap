@@ -73,7 +73,7 @@ defmodule CPAP.Purchases do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_order(%Order{} = order, attrs) do
+  def update_order(%Order{} = order, attrs ) do
     order
     |> order_changeset(attrs)
     |> Repo.update()
@@ -104,9 +104,10 @@ defmodule CPAP.Purchases do
       %Ecto.Changeset{source: %Order{}}
 
   """
-  def change_order(%Order{} = order, user) do
-    user
-    |> Ecto.build_assoc(:orders)
+  def change_order(%Order{} = order) do
+    # user
+    # |> Ecto.build_assoc(:orders)
+    order
     |> order_changeset(%{})
   end
 

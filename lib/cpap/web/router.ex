@@ -27,6 +27,7 @@ defmodule CPAP.Web.Router do
 
     resources "/products", ProductController
     resources "/orders", OrderController
+    post "/orders/:id", OrderController, :update
   end
 
   # Other scopes may use custom stacks.
