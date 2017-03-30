@@ -10,6 +10,7 @@ defmodule CPAP.User do
     has_many :products, CPAP.Product
     has_many :intervals, CPAP.Interval
     has_many :orders, CPAP.Purchases.Order
+    has_many :items, CPAP.Purchases.Item
 
     timestamps()
   end

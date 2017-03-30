@@ -7,11 +7,17 @@ defmodule CPAP.Purchases do
   alias CPAP.Repo
 
   alias CPAP.Purchases.Order
+  alias CPAP.Purchases.Item
+  alias CPAP.Product
 
   defp user_orders(user) do
     Ecto.assoc(user, :orders)
   end
-  
+
+  defp order_items(order) do
+    Ecto.assoc(order, :items )
+  end
+
   @doc """
   Returns the list of orders.
 
@@ -41,6 +47,8 @@ defmodule CPAP.Purchases do
   """
   def get_order!(id, user), do: Repo.get!(user_orders(user), id)
 
+  def get_items!(order), do: Repo.all(order_items(order)) |> Repo.preload(:product)
+
   @doc """
   Creates a order.
 
@@ -58,6 +66,15 @@ defmodule CPAP.Purchases do
     user
     |> Ecto.build_assoc(:orders)
     |> order_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_item(attrs \\ %{}, user) do
+  #    attrs = Map.put(attrs, :order_id, order.id)
+    user
+    |> Ecto.build_assoc(:items)
+    |> item_changeset(attrs)
+    |> IO.inspect 
     |> Repo.insert()
   end
 
@@ -109,6 +126,19 @@ defmodule CPAP.Purchases do
     # |> Ecto.build_assoc(:orders)
     order
     |> order_changeset(%{})
+  end
+
+  def change_item(%Item{} = item, order) do
+    item
+    |> item_changeset(%{})
+    |> put_change(:order_id, order)
+    |> IO.inspect label: "change_item"
+  end
+
+  defp item_changeset(%Item{} = item, attrs) do
+    item
+    |> cast(attrs, [:qty, :product_id, :order_id, :user_id])
+    |> validate_required([:qty, :product_id, :order_id, :user_id])
   end
 
   defp order_changeset(%Order{} = order, attrs) do
