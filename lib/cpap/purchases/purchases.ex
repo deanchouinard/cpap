@@ -69,11 +69,14 @@ defmodule CPAP.Purchases do
     |> Repo.insert()
   end
 
-  def create_item(attrs \\ %{}, user) do
+  def create_item(attrs \\ %{}, user, order) do
   #    attrs = Map.put(attrs, :order_id, order.id)
     user
     |> Ecto.build_assoc(:items)
     |> item_changeset(attrs)
+    |> IO.inspect
+    |> put_change(:order_id, String.to_integer(order["id"]))
+    |> apply_changes()
     |> IO.inspect 
     |> Repo.insert()
   end

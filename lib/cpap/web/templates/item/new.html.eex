@@ -1,6 +1,6 @@
 <h2>New Item</h2>
-
+<%= @order.id %>
 <%= render "form.html", changeset: @changeset, products: @products,
-                    action: item_path(@conn, :create) %>
+  action: item_path(@conn, :create, order: @order ) %>
 
 <span><%= link "Back", to: order_path(@conn, :index) %></span>

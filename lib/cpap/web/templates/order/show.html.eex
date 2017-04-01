@@ -10,6 +10,6 @@
     <li><%= item.qty %> <%= "#{item.product.code}: #{item.product.desc}" %></li>
   <% end %>
 </ul>
-<%= link "Add item", to: item_path(@conn, :new, %{order: @order}) %>
+<%= link "Add item", to: item_path(@conn, :new, order: @order) %>
 <span><%= link "Edit", to: order_path(@conn, :edit, @order) %></span>
 <span><%= link "Back", to: order_path(@conn, :index) %></span>

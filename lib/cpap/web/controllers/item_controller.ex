@@ -28,16 +28,20 @@ defmodule CPAP.Web.ItemController do
   def new(conn, %{"order" => order}, _user) do
 #    IO.inspect params, label: "item:new"
     changeset = Purchases.change_item(%CPAP.Purchases.Item{}, order)
-    render(conn, "new.html", changeset: changeset)
+    order = %{id:  order}
+    IO.inspect order, label: "item_new"
+    render(conn, "new.html", changeset: changeset, order: order)
   end
 
-  def create(conn, %{"item" => item_params}, user) do
-    case Purchases.create_item(item_params, user) do
+  def create(conn, %{"item" => item_params, "order" => order}, user) do
+#  def create(conn, item_params, user) do
+    IO.inspect item_params, label: "item_params"
+    case Purchases.create_item(item_params, user, order) do
       {:ok, item} ->
         conn
         |> put_flash(:info, "Item created successfully.")
         #|> redirect(to: order_path(conn, :show, order))
-        |> redirect(to: order_path(conn, :index))
+        |> redirect(to: order_path(conn, :show, order["id"]))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
