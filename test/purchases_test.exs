@@ -7,6 +7,7 @@ defmodule CPAP.PurchasesTest do
   @create_attrs %{order_date: ~D[2010-04-17]}
   @update_attrs %{order_date: ~D[2011-05-18]}
   @invalid_attrs %{order_date: nil}
+  @item_attrs %{qty: 1}
 
   def fixture(:order, attrs \\ @create_attrs) do
     user = insert_user()
@@ -19,6 +20,17 @@ defmodule CPAP.PurchasesTest do
   test "list_orders/1 returns all orders" do
     {user, order} = fixture(:order)
     assert Purchases.list_orders(user) == [order]
+  end
+
+  test "list item for an order" do
+    {user, order} = fixture(:order)
+    interval = insert_interval(user, %{months: 1})
+    product = insert_product(user, %{code: "TEST", desc: "A test", qty: 1,
+      interval_id: interval.id})
+
+    {:ok, item} = Purchases.create_item(%{"qty" => 1, "product_id" =>product.id}, user,
+    order.id)
+    assert item.product_id == product.id
   end
 
   test "get_order! returns the order with given id" do

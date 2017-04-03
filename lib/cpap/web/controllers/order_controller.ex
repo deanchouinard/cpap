@@ -30,11 +30,11 @@ defmodule CPAP.Web.OrderController do
   end
 
   def show(conn, %{"id" => id}, user) do
-    # IO.puts "*****************************"
-    # IO.inspect conn, label: "from show"
+    IO.puts "*****************************"
     order = Purchases.get_order!(id, user)
     IO.inspect order, label: "order show"
     items = Purchases.get_items!(order)
+    IO.inspect conn, label: "from show"
     render(conn, "show.html", order: order, items: items)
   end
 

@@ -26,9 +26,11 @@ defmodule CPAP.Web.Router do
     pipe_through [:browser, :authenticate_user]
 
     resources "/products", ProductController
-    resources "/orders", OrderController
+#    resources "/orders", OrderController
     post "/orders/:id", OrderController, :update
-    resources "/items", ItemController
+    resources "/orders", OrderController do
+      resources "/items", ItemController
+    end
 
   end
 

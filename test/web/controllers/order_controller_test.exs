@@ -55,6 +55,7 @@ defmodule CPAP.Web.OrderControllerTest do
     IO.inspect conn.assigns.current_user, label: "Test"
     IO.inspect id
     conn = get conn, order_path(conn, :show, id)
+    IO.inspect conn.assigns.current_user, label: "Test2"
     assert html_response(conn, 200) =~ "Show Order"
 
     #assert redirected_to(conn) == order_path(conn, :show, id)

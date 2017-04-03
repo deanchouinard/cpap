@@ -8,7 +8,7 @@ defmodule CPAP.Purchases do
 
   alias CPAP.Purchases.Order
   alias CPAP.Purchases.Item
-  alias CPAP.Product
+  #  alias CPAP.Product
 
   defp user_orders(user) do
     Ecto.assoc(user, :orders)
@@ -69,15 +69,15 @@ defmodule CPAP.Purchases do
     |> Repo.insert()
   end
 
-  def create_item(attrs \\ %{}, user, order) do
-  #    attrs = Map.put(attrs, :order_id, order.id)
+  def create_item(attrs \\ %{}, user, order_id) do
+    attrs = Map.put(attrs, "order_id", order_id)
     user
     |> Ecto.build_assoc(:items)
     |> item_changeset(attrs)
-    |> IO.inspect
-    |> put_change(:order_id, String.to_integer(order["id"]))
-    |> apply_changes()
-    |> IO.inspect 
+    |> IO.inspect(label: "create item*********")
+    #    |> put_change(:order_id, String.to_integer(order_id))
+    #|> apply_changes()
+    #|> IO.inspect 
     |> Repo.insert()
   end
 
@@ -131,14 +131,16 @@ defmodule CPAP.Purchases do
     |> order_changeset(%{})
   end
 
-  def change_item(%Item{} = item, order) do
+  def change_item(%Item{} = item) do
     item
     |> item_changeset(%{})
-    |> put_change(:order_id, order)
-    |> IO.inspect label: "change_item"
+    #    |> put_change(:order_id, String.to_integer(order_id))
+    #|> apply_changes()
+    |> IO.inspect(label: "change_item")
   end
 
-  defp item_changeset(%Item{} = item, attrs) do
+  #defp item_changeset(%Item{} = item, attrs) do
+  def item_changeset(%Item{} = item, attrs) do
     item
     |> cast(attrs, [:qty, :product_id, :order_id, :user_id])
     |> validate_required([:qty, :product_id, :order_id, :user_id])

@@ -25,25 +25,27 @@ defmodule CPAP.Web.ItemController do
   #   render(conn, "index.html", orders: orders)
   # end
 
-  def new(conn, %{"order" => order}, _user) do
-#    IO.inspect params, label: "item:new"
-    changeset = Purchases.change_item(%CPAP.Purchases.Item{}, order)
-    order = %{id:  order}
-    IO.inspect order, label: "item_new"
-    render(conn, "new.html", changeset: changeset, order: order)
+    def new(conn, %{"order_id" => order_id}, _user) do
+#  def new(conn, params, _user) do
+    changeset = Purchases.change_item(%CPAP.Purchases.Item{})
+    #changeset = Purchases.change_item(%CPAP.Purchases.Item{}, order_id)
+    #order = %{id:  order}
+    #IO.inspect order_id, label: "item_new"
+    #render(conn, "new.html", changeset: changeset, order_id: order_id)
+    render(conn, "new.html", changeset: changeset, order_id: order_id)
   end
 
-  def create(conn, %{"item" => item_params, "order" => order}, user) do
+  def create(conn, %{"item" => item_params, "order_id" => order_id}, user) do
 #  def create(conn, item_params, user) do
     IO.inspect item_params, label: "item_params"
-    case Purchases.create_item(item_params, user, order) do
+    case Purchases.create_item(item_params, user, order_id) do
       {:ok, item} ->
         conn
         |> put_flash(:info, "Item created successfully.")
         #|> redirect(to: order_path(conn, :show, order))
-        |> redirect(to: order_path(conn, :show, order["id"]))
+        |> redirect(to: order_path(conn, :show, order_id))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, order_id: order_id)
     end
   end
 end
