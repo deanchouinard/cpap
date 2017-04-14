@@ -19,7 +19,7 @@ defmodule CPAP.Web.OrderControllerTest do
       #
       # {:ok, conn: conn, user: user, product: product, product_attrs:
       #   product_attrs}
-      {:ok, conn: conn, order: order}
+      {:ok, conn: conn, order: order, user: user}
     else
       :ok
     end
@@ -45,17 +45,16 @@ defmodule CPAP.Web.OrderControllerTest do
   end
 
   @tag login_as: "max"
-  test "creates order and redirects to show when data is valid", %{conn: conn} do
+  test "creates order and redirects to show when data is valid", %{conn: conn,
+    user: user} do
     # attrs = Map.put(@create_attrs, :user_id, conn.assigns.current_user.id)
     # conn = post conn, order_path(conn, :create), order: attrs
-    conn = post conn, order_path(conn, :create), order: @create_attrs
-
+    attrs = %{order_date: ~D[2010-04-17], user_id: user.id}
+    conn = post conn, order_path(conn, :create), order: attrs
     assert %{id: id} = redirected_params(conn)
     assert redirected_to(conn) == order_path(conn, :show, id)
-    IO.inspect conn.assigns.current_user, label: "Test"
-    IO.inspect id
+    IO.inspect id, label: "id"
     conn = get conn, order_path(conn, :show, id)
-    IO.inspect conn.assigns.current_user, label: "Test2"
     assert html_response(conn, 200) =~ "Show Order"
 
     #assert redirected_to(conn) == order_path(conn, :show, id)
@@ -90,6 +89,9 @@ defmodule CPAP.Web.OrderControllerTest do
     conn = put conn, order_path(conn, :update, order), order: @update_attrs
     assert redirected_to(conn) == order_path(conn, :show, order)
 
+    IO.inspect conn.assigns[:current_user], label: "current_user"
+    # not sure why I have to build a new conn to get this to work
+    conn = assign(build_conn(), :current_user, conn.assigns.current_user)
     conn = get conn, order_path(conn, :show, order)
     assert html_response(conn, 200)
   end

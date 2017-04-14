@@ -1,0 +1,35 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :order_date, class: "control-label" %>
+    <%= date_select f, :order_date, class: "form-control" %>
+    <%= error_tag f, :order_date %>
+  </div>
+
+  <%= inputs_for f, :items, fn i -> %>
+  <div class="form-group form-inline">
+    <%= label i, :qty, "Item ##{i.index + 1}", class: "control-label" %>
+    <%= select i, :qty, 0..10, class: "form-control" %>
+    <%= label i, :product_id, "#{i.data.product.code}: #{i.data.product.desc}" %>
+    <%= "#{i.data.product.code}: #{i.data.product.desc}" %>
+    <%= if i.data.id do %>
+      <span class="pull-right">
+        <%= #label i, :delete, "Delete?", class: "control-label" %>
+        <%= #checkbox i, :delete %>
+      </span>
+    <% end %>
+    <%= if message = i.errors[:qty] do %>
+      <span class="help-block"><<%= message %></span>
+    <% end %>
+  </div>
+<% end %>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>

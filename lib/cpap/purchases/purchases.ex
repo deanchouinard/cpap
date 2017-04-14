@@ -31,6 +31,14 @@ defmodule CPAP.Purchases do
     Repo.all(user_orders(user))
   end
 
+  def list_orders_and_items(user) do
+    Repo.all from o in Order, where: o.user_id == ^user.id,
+    order_by: [desc: o.order_date],
+    left_join: items in assoc(o, :items),
+    left_join: product in assoc(items, :product),
+    preload: [items: {items, product: product}]
+  end
+
   @doc """
   Gets a single order.
 
@@ -46,6 +54,8 @@ defmodule CPAP.Purchases do
 
   """
   def get_order!(id, user), do: Repo.get!(user_orders(user), id)
+    |> Repo.preload(items:
+    from(i in Item, join: p in assoc(i, :product), preload: [product: p ]))
 
   def get_items!(order), do: Repo.all(order_items(order)) |> Repo.preload(:product)
 
@@ -62,10 +72,17 @@ defmodule CPAP.Purchases do
 
   """
   def create_order(attrs \\ %{}, user) do
-    # %Order{}
+    IO.inspect attrs, lable: "create_order"
+    od = Map.get(attrs, "order_date")
+    attrs = Enum.map(attrs["items"], fn {k, v} -> {k, Map.put(v, "user_id", user.id)}
+      end ) |> Enum.into(%{})
+    attrs = Map.put(%{}, "items", attrs)
+    attrs = Map.put(attrs, "order_date", od)
+
     user
     |> Ecto.build_assoc(:orders)
-    |> order_changeset(attrs)
+    |> order_item_changeset(attrs)
+    |> IO.inspect
     |> Repo.insert()
   end
 
@@ -95,7 +112,8 @@ defmodule CPAP.Purchases do
   """
   def update_order(%Order{} = order, attrs ) do
     order
-    |> order_changeset(attrs)
+    |> order_item_changeset(attrs)
+    |> IO.inspect
     |> Repo.update()
   end
 
@@ -125,17 +143,18 @@ defmodule CPAP.Purchases do
 
   """
   def change_order(%Order{} = order) do
-    # user
-    # |> Ecto.build_assoc(:orders)
     order
     |> order_changeset(%{})
+  end
+
+  def change_order_item(%Order{} = order) do
+    order
+    |> order_item_changeset(%{})
   end
 
   def change_item(%Item{} = item) do
     item
     |> item_changeset(%{})
-    #    |> put_change(:order_id, String.to_integer(order_id))
-    #|> apply_changes()
     |> IO.inspect(label: "change_item")
   end
 
@@ -143,7 +162,8 @@ defmodule CPAP.Purchases do
   def item_changeset(%Item{} = item, attrs) do
     item
     |> cast(attrs, [:qty, :product_id, :order_id, :user_id])
-    |> validate_required([:qty, :product_id, :order_id, :user_id])
+    #|> validate_required([:qty, :product_id, :order_id, :user_id])
+    |> validate_required([:qty, :product_id, :user_id])
   end
 
   defp order_changeset(%Order{} = order, attrs) do
@@ -151,4 +171,12 @@ defmodule CPAP.Purchases do
     |> cast(attrs, [:order_date, :user_id])
     |> validate_required([:order_date, :user_id])
   end
+
+  def order_item_changeset(%Order{} = order, params) do
+    order
+    |> cast(params, [:order_date, :user_id])
+    |> validate_required([:order_date, :user_id])
+    |> cast_assoc(:items, required: true, with: &item_changeset/2)
+  end
+
 end

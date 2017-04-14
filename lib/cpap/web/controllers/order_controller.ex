@@ -2,6 +2,18 @@ defmodule CPAP.Web.OrderController do
   use CPAP.Web, :controller
 
   alias CPAP.Purchases
+  alias CPAP.Product
+
+  plug :load_products when action in [:new, :create]
+
+  defp load_products(conn, _) do
+    query =
+      Product
+      |> Product.codes_and_ids(conn.assigns.current_user)
+
+    products = Repo.all query
+    assign(conn, :products, products)
+  end
 
   def action(conn, _) do
     apply(__MODULE__, action_name(conn),
@@ -14,7 +26,8 @@ defmodule CPAP.Web.OrderController do
   end
 
   def new(conn, _params, _user) do
-    changeset = Purchases.change_order(%CPAP.Purchases.Order{})
+    changeset = Purchases.change_order_item(%CPAP.Purchases.Order{items:
+    [%CPAP.Purchases.Item{}]})
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -30,17 +43,17 @@ defmodule CPAP.Web.OrderController do
   end
 
   def show(conn, %{"id" => id}, user) do
-    IO.puts "*****************************"
     order = Purchases.get_order!(id, user)
-    IO.inspect order, label: "order show"
-    items = Purchases.get_items!(order)
-    IO.inspect conn, label: "from show"
-    render(conn, "show.html", order: order, items: items)
+    #items = Purchases.get_items!(order)
+    render(conn, "show.html", order: order)
   end
 
   def edit(conn, %{"id" => id}, user) do
     order = Purchases.get_order!(id, user)
-    changeset = Purchases.change_order(order)
+    #    IO.inspect order, label: "order @ edit"
+    # changeset = Purchases.change_order(order)
+    changeset = Purchases.change_order_item(order)
+    IO.inspect changeset, label: "edit"
     render(conn, "edit.html", order: order, changeset: changeset)
   end
 

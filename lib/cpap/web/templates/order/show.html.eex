@@ -1,15 +1,27 @@
 <h2>Show Order</h2>
 
-<ul>
-
-  <li>
-    <strong>Order date:</strong>
-    <%= @order.order_date %>
-  </li>
-  <%= for item <- @items do %>
-    <li><%= item.qty %> <%= "#{item.product.code}: #{item.product.desc}" %></li>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Qty</th>
+      <th>Code</th>
+      <th>Order date: <%= @order.order_date %></th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= for item <- @order.items do %>
+    <tr>
+      <td><%= item.qty %> </td>
+      <td><%= item.product.code %> </td>
+      <td><%= item.product.desc %></td>
+    </tr>
   <% end %>
-</ul>
+  </tbody>
+</table>
+
 <%= link "Add item", to: order_item_path(@conn, :new, @order) %>
+<br/>
 <span><%= link "Edit", to: order_path(@conn, :edit, @order) %></span>
+<br/>
 <span><%= link "Back", to: order_path(@conn, :index) %></span>
+        <span><%= link "Delete", to: order_path(@conn, :delete, @order), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
