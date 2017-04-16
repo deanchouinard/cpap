@@ -7,6 +7,8 @@ defmodule CPAP.Purchases.Item do
     belongs_to(:order, Order)
     belongs_to(:product, CPAP.Product)
 
+    field :delete, :boolean, virtual: true
+
     timestamps()
   end
 end

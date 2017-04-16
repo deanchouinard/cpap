@@ -19,8 +19,8 @@
     <%= "#{i.data.product.code}: #{i.data.product.desc}" %>
     <%= if i.data.id do %>
       <span class="pull-right">
-        <%= #label i, :delete, "Delete?", class: "control-label" %>
-        <%= #checkbox i, :delete %>
+        <%= label i, :delete, "Delete?", class: "control-label" %>
+        <%= checkbox i, :delete %>
       </span>
     <% end %>
     <%= if message = i.errors[:qty] do %>

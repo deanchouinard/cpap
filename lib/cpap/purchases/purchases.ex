@@ -71,13 +71,17 @@ defmodule CPAP.Purchases do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_order(attrs \\ %{}, user) do
-    IO.inspect attrs, lable: "create_order"
-    od = Map.get(attrs, "order_date")
-    attrs = Enum.map(attrs["items"], fn {k, v} -> {k, Map.put(v, "user_id", user.id)}
-      end ) |> Enum.into(%{})
+  # def create_order(attrs \\ %{}, user) do
+  def create_order(%{"items" => items, "order_date" => order_date} \\ %{}, user) do
+    #IO.inspect attrs, lable: "create_order"
+    #od = Map.get(attrs, "order_date")
+    #attrs = Enum.map(attrs["items"], fn {k, v} -> {k, Map.put(v, "user_id", user.id)}
+    attrs = Enum.filter(items, fn {_k, v} -> v["qty"] != "0" end)
+    |> Enum.map(fn {k, v} -> {k, Map.put(v, "user_id", user.id)} end )
+    |> Enum.into(%{})
+
     attrs = Map.put(%{}, "items", attrs)
-    attrs = Map.put(attrs, "order_date", od)
+    |> Map.put("order_date", order_date)
 
     user
     |> Ecto.build_assoc(:orders)
@@ -161,9 +165,18 @@ defmodule CPAP.Purchases do
   #defp item_changeset(%Item{} = item, attrs) do
   def item_changeset(%Item{} = item, attrs) do
     item
-    |> cast(attrs, [:qty, :product_id, :order_id, :user_id])
+    |> cast(attrs, [:qty, :product_id, :order_id, :user_id, :delete])
     #|> validate_required([:qty, :product_id, :order_id, :user_id])
     |> validate_required([:qty, :product_id, :user_id])
+    |> mark_for_deletion()
+  end
+  
+  defp mark_for_deletion(changeset) do
+    if get_change(changeset, :delete) do
+      %{changeset | action: :delete}
+    else
+      changeset
+    end
   end
 
   defp order_changeset(%Order{} = order, attrs) do

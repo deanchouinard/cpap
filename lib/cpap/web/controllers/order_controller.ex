@@ -27,9 +27,11 @@ defmodule CPAP.Web.OrderController do
 
   def new(conn, _params, _user) do
     changeset = Purchases.change_order_item(%CPAP.Purchases.Order{items:
-    [%CPAP.Purchases.Item{}]})
+    make_4_items()})
     render(conn, "new.html", changeset: changeset)
   end
+
+  defp make_4_items, do: for _ <- 1..4, do: %CPAP.Purchases.Item{}
 
   def create(conn, %{"order" => order_params}, user) do
     case Purchases.create_order(order_params, user) do

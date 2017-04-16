@@ -53,6 +53,7 @@ defmodule CPAP.Web do
       import CPAP.Web.Router.Helpers
       import CPAP.Web.ErrorHelpers
       import CPAP.Web.Gettext
+      import CPAP.Web.Views.Helpers
     end
   end
 
