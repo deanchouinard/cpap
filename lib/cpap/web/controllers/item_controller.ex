@@ -39,7 +39,7 @@ defmodule CPAP.Web.ItemController do
 #  def create(conn, item_params, user) do
     IO.inspect item_params, label: "item_params"
     case Purchases.create_item(item_params, user, order_id) do
-      {:ok, item} ->
+      {:ok, _item} ->
         conn
         |> put_flash(:info, "Item created successfully.")
         #|> redirect(to: order_path(conn, :show, order))
