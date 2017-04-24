@@ -1,6 +1,20 @@
 <%= if @current_user do %>
 
   <h4>Suggested Next Order</h4>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Code</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for product <- @products_needed do %>
+        <tr>
+          <td><%= product.code %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
   <h4>Recent Orders</h4>
 <table class="table table-condensed">
   <thead>
