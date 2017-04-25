@@ -1,7 +1,6 @@
-<div class="container">
   <h2>Listing Orders</h2>
 
-<table class="table">
+<table class="table table-condensed">
   <thead>
     <tr>
       <th>Order date</th>
@@ -25,4 +24,4 @@
 </table>
 
 <span><%= link "New Order", to: order_path(@conn, :new) %></span>
-</div>
+
