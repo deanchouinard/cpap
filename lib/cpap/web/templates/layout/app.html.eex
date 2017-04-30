@@ -25,6 +25,8 @@
               <li><%= link "Orders", to: order_path(@conn, :index) %></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li class="navbar-text"><strong class="text-danger"><%= Mix.env |>
+            to_string() %></strong></li>
             <li class="navbar-text"><%= @current_user.username %></li>
             <li class="navbar-text"><%= link "Log out", to: session_path(@conn, :delete, @current_user), method: "delete" %></li>
           </ul>
@@ -38,9 +40,9 @@
       </nav>
       </ol>
         <span class="logo"></span>
-      </div>
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      </div>
 
       <div class="container">
         <div class="row">
